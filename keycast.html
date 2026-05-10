@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KeyCast — Live Production. One Button Away.</title>
+  <meta name="description" content="KeyCast is the live production platform built for serious content creators. One-button scene switching, real-time topic management, multi-platform streaming. Join the waitlist.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:       #080810;
+      --bg2:      #0d0d1a;
+      --bg3:      #12122a;
+      --border:   rgba(255,255,255,0.07);
+      --cyan:     #00d4ff;
+      --orange:   #ff6b35;
+      --green:    #7ed957;
+      --purple:   #a855f7;
+      --text:     #e4e4f0;
+      --muted:    #666680;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ──────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(8,8,16,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 0.6rem;
+      text-decoration: none; color: var(--text);
+      font-weight: 700; font-size: 1rem; letter-spacing: -0.01em;
+    }
+    .nav-logo .mark {
+      width: 28px; height: 28px;
+      background: linear-gradient(135deg, var(--cyan), #0088aa);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 900; color: var(--bg);
+    }
+    .nav-right {
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .nav-back {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.85rem; font-weight: 500;
+      transition: color 0.15s;
+    }
+    .nav-back:hover { color: var(--text); }
+
+    /* ── Hero ─────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -10%; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 900px;
+      background: radial-gradient(ellipse, rgba(168,85,247,0.07) 0%, rgba(0,212,255,0.05) 40%, transparent 70%);
+      pointer-events: none;
+    }
+    .product-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(168,85,247,0.1);
+      border: 1px solid rgba(168,85,247,0.25);
+      color: var(--purple); font-size: 0.78rem; font-weight: 600;
+      padding: 0.35rem 0.9rem; border-radius: 20px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .product-tag span { opacity: 0.6; }
+    .hero-wordmark {
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 900; letter-spacing: -0.04em;
+      line-height: 1;
+      background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 50%, var(--purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+    .hero-tagline {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--muted); font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-tagline strong { color: var(--text); font-weight: 600; }
+    .hero-desc {
+      max-width: 580px; font-size: 1rem;
+      color: var(--muted); line-height: 1.75;
+      margin: 0 auto 3rem;
+    }
+
+    /* ── Waitlist form ────────────────────── */
+    .waitlist-card {
+      background: var(--bg2);
+      border: 1px solid rgba(168,85,247,0.2);
+      border-radius: 16px;
+      padding: 2.5rem;
+      max-width: 480px;
+      width: 100%;
+      margin: 0 auto;
+      box-shadow: 0 0 60px rgba(168,85,247,0.08);
+    }
+    .waitlist-card h2 {
+      font-size: 1.25rem; font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .waitlist-card p {
+      font-size: 0.85rem; color: var(--muted);
+      margin-bottom: 1.75rem; line-height: 1.6;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label {
+      display: block; font-size: 0.78rem; font-weight: 600;
+      color: var(--muted); margin-bottom: 0.4rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .form-group input {
+      width: 100%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .form-group input:focus {
+      border-color: rgba(168,85,247,0.4);
+    }
+    .form-group input::placeholder { color: var(--muted); }
+    .btn-waitlist {
+      width: 100%;
+      background: linear-gradient(135deg, var(--purple), #7c3aed);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.9rem;
+      font-size: 0.95rem; font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .btn-waitlist:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-waitlist:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .form-note {
+      font-size: 0.75rem; color: var(--muted);
+      text-align: center; margin-top: 0.85rem; line-height: 1.5;
+    }
+    .success-msg {
+      display: none;
+      background: rgba(126,217,87,0.08);
+      border: 1px solid rgba(126,217,87,0.25);
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .success-msg .check-icon {
+      font-size: 2rem; margin-bottom: 0.75rem; display: block;
+    }
+    .success-msg h3 {
+      font-size: 1rem; font-weight: 700;
+      color: var(--green); margin-bottom: 0.4rem;
+    }
+    .success-msg p { font-size: 0.85rem; color: var(--muted); }
+    .error-msg {
+      display: none;
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 8px; padding: 0.75rem 1rem;
+      font-size: 0.82rem; color: #f87171;
+      margin-top: 0.75rem; text-align: center;
+    }
+
+    /* ── Features ─────────────────────────── */
+    .features { padding: 7rem 2rem; background: var(--bg2); }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      color: var(--purple); font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; letter-spacing: -0.025em; line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 560px; line-height: 1.7;
+      margin-bottom: 3.5rem;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    .feature {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem 1.75rem;
+      transition: border-color 0.2s;
+    }
+    .feature:hover { border-color: rgba(168,85,247,0.2); }
+    .feature-icon { font-size: 1.75rem; margin-bottom: 1rem; display: block; }
+    .feature h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .feature p { font-size: 0.875rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── Built on JtQ ─────────────────────── */
+    .proof-section { padding: 7rem 2rem; }
+    .proof-inner {
+      max-width: 800px; margin: 0 auto; text-align: center;
+    }
+    .proof-inner .section-tag { margin-bottom: 0.75rem; }
+    .proof-inner h2 { margin-bottom: 1.25rem; }
+    .proof-inner p {
+      color: var(--muted); line-height: 1.75; font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+    }
+    .show-badge {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: rgba(255,107,53,0.08);
+      border: 1px solid rgba(255,107,53,0.2);
+      border-radius: 10px;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.85rem; color: var(--orange);
+      font-weight: 600; margin-top: 1rem;
+    }
+
+    /* ── Footer ───────────────────────────── */
+    footer {
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo {
+      display: flex; align-items: center; gap: 0.6rem;
+      text-decoration: none; color: var(--muted);
+      font-size: 0.875rem; font-weight: 600;
+    }
+    .footer-logo .mark {
+      width: 22px; height: 22px;
+      background: linear-gradient(135deg, var(--cyan), #0088aa);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.58rem; font-weight: 900; color: var(--bg);
+    }
+    .footer-links {
+      display: flex; gap: 1.5rem;
+    }
+    .footer-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.8rem; transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { font-size: 0.75rem; color: var(--muted); }
+
+    @media (max-width: 768px) {
+      .hero { padding: 7rem 1.25rem 4rem; }
+      .waitlist-card { padding: 1.75rem; }
+      section { padding: 5rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ───────────────────────────────── -->
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="mark">KL</div>
+    Keystroke Life
+  </a>
+  <div class="nav-right">
+    <a href="/" class="nav-back">← Back to main site</a>
+  </div>
+</nav>
+
+<!-- ── Hero ──────────────────────────────── -->
+<section class="hero">
+  <div class="product-tag">
+    <span>⚡</span> A Keystroke Life Product
+  </div>
+  <div class="hero-wordmark">KeyCast</div>
+  <p class="hero-tagline"><strong>Live production.</strong> One button away.</p>
+  <p class="hero-desc">
+    The live production platform built for serious content creators.
+    One-button scene switching, real-time topic management, multi-platform streaming control
+    — all from a single interface built to perform under pressure.
+  </p>
+
+  <!-- Waitlist form -->
+  <div class="waitlist-card">
+    <h2>Join the waitlist</h2>
+    <p>KeyCast is in active development. Be first to know when access opens — and help shape what we build next.</p>
+
+    <div id="form-area">
+      <div class="form-group">
+        <label for="name">Your name</label>
+        <input type="text" id="name" placeholder="Simon Askew" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <button class="btn-waitlist" id="submit-btn" onclick="submitWaitlist()">
+        Join the waitlist →
+      </button>
+      <div class="error-msg" id="error-msg"></div>
+      <p class="form-note">No spam. No marketing blasts. Just a heads-up when KeyCast is ready.</p>
+    </div>
+
+    <div class="success-msg" id="success-msg">
+      <span class="check-icon">✅</span>
+      <h3>You're on the list.</h3>
+      <p>We'll be in touch as soon as KeyCast access opens. Thanks for your interest.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ──────────────────────────── -->
+<section class="features">
+  <div class="container">
+    <div class="section-tag">What KeyCast does</div>
+    <h2>Built by live producers.<br>For live producers.</h2>
+    <p class="section-sub">KeyCast came out of producing a real live show. Every feature exists because we needed it and it didn't exist anywhere else.</p>
+    <div class="feature-grid">
+      <div class="feature">
+        <span class="feature-icon">🎚️</span>
+        <h3>One-Button Scene Control</h3>
+        <p>Stream Deck integration with real-time scene switching across OBS and StreamYard simultaneously. No tab-switching, no clicking around — one button, both platforms, every time.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">📋</span>
+        <h3>Live Topic Management</h3>
+        <p>Producer dashboard with real-time topic pool. Drag to reorder, mark topics as active or done mid-show, restore them if the conversation circles back. No running order — fluid by design.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🖥️</span>
+        <h3>Media Display Engine</h3>
+        <p>Full-screen media display for OBS browser source. Auto-updates from your topic database in real time. Supports images, YouTube, Rumble, direct video, and PDFs. No manual prep between topics.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">👥</span>
+        <h3>Co-host &amp; Contributor Tools</h3>
+        <p>Role-based access for co-hosts and contributors. Contributors submit topic suggestions. Co-hosts get their own scene management view. Producers stay in control of what goes on air.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">📡</span>
+        <h3>Multi-Platform Streaming</h3>
+        <p>Stream to YouTube, Rumble, X — simultaneously, from multiple accounts. Stream credential management built in. No third-party relay required.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">💬</span>
+        <h3>Live Chat Integration</h3>
+        <p>Real-time comment ingestion from YouTube and Rumble. AI-powered comment ranking and moderation. Pin viewer messages to screen. Approve co-host requests to spotlight comments.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Proof ──────────────────────────────── -->
+<section class="proof-section">
+  <div class="proof-inner">
+    <div class="section-tag">Battle-tested</div>
+    <h2>Built live. Tested live.<br>Deployed live.</h2>
+    <p>
+      KeyCast isn't a product designed in a vacuum. Every feature was built, broken, and refined during the production of a real live show — <strong style="color: var(--text);">Join the Q: The Doom Busters</strong>.
+    </p>
+    <p>
+      The topic pool, media display, scene sync, co-host tools, and chat integration were all developed under the pressure of a live audience. That's the only way to know if something actually works.
+    </p>
+    <div class="show-badge">
+      📺 Built during production of Join the Q — The Doom Busters
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <a href="/" class="footer-logo">
+      <div class="mark">KL</div>
+      Keystroke Life
+    </a>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/#how">How it works</a>
+      <a href="/#who">Who it's for</a>
+      <a href="mailto:hello@keystrokelife.com">Contact</a>
+    </div>
+    <p class="footer-copy">© 2026 Keystroke Life</p>
+  </div>
+</footer>
+
+<script>
+  const SUPABASE_URL = 'https://tzwgoysovdeyucsndkqw.supabase.co'
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6d2dveXNvdmRleXVjc25ka3F3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NTA3MjIsImV4cCI6MjA5MDIyNjcyMn0._7GYW7pa4P3PsrWsMXAdow7Ia0HV8y-dgodAkTU3mJg'
+
+  async function submitWaitlist() {
+    const name = document.getElementById('name').value.trim()
+    const email = document.getElementById('email').value.trim()
+    const btn = document.getElementById('submit-btn')
+    const errorEl = document.getElementById('error-msg')
+
+    errorEl.style.display = 'none'
+
+    if (!name) { showError('Please enter your name.'); return }
+    if (!email || !email.includes('@')) { showError('Please enter a valid email address.'); return }
+
+    btn.disabled = true
+    btn.textContent = 'Joining…'
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/keycast_waitlist`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ name, email, source: 'keystrokelife.com/keycast' })
+      })
+
+      if (res.ok) {
+        document.getElementById('form-area').style.display = 'none'
+        document.getElementById('success-msg').style.display = 'block'
+      } else {
+        const data = await res.json()
+        if (data?.code === '23505') {
+          showError('That email is already on the list.')
+        } else {
+          showError('Something went wrong. Please try again.')
+        }
+        btn.disabled = false
+        btn.textContent = 'Join the waitlist →'
+      }
+    } catch (e) {
+      showError('Network error. Please check your connection and try again.')
+      btn.disabled = false
+      btn.textContent = 'Join the waitlist →'
+    }
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('error-msg')
+    el.textContent = msg
+    el.style.display = 'block'
+  }
+
+  // Allow Enter key on inputs
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && (document.activeElement.id === 'name' || document.activeElement.id === 'email')) {
+      submitWaitlist()
+    }
+  })
+</script>
+
+</body>
+</html>
