@@ -421,12 +421,50 @@
     .foot-links a:hover { color: var(--text); }
     .foot-copy { font-size: 0.72rem; color: var(--muted); }
 
+    .platforms { background: var(--bg2); }
+    .plat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .plat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .plat-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .plat-card.mac::before { background: linear-gradient(90deg, var(--cyan), #0088aa); }
+    .plat-card.win::before { background: linear-gradient(90deg, var(--mag), #6699ff); }
+    .plat-os {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+    .plat-card.mac .plat-os { color: var(--cyan); }
+    .plat-card.win .plat-os { color: #88bbff; }
+    .plat-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .plat-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.85rem; }
+    .plat-tools { list-style: none; }
+    .plat-tools li {
+      font-size: 0.78rem; color: var(--text);
+      padding: 0.35rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex; gap: 0.45rem;
+    }
+    .plat-tools li:last-child { border-bottom: none; }
+    .plat-tools li::before { content: '→'; color: var(--muted); opacity: 0.6; }
+
     @media (max-width: 960px) {
       .hero { grid-template-columns: 1fr; padding-top: 6rem; }
       .deck-stage { order: -1; max-width: 420px; margin: 0 auto; }
       .pipeline { grid-template-columns: 1fr 1fr; }
       .pipe-node:not(:last-child)::after { display: none; }
-      .bridge-panel, .waitlist-wrap { grid-template-columns: 1fr; }
+      .bridge-panel, .waitlist-wrap, .plat-grid { grid-template-columns: 1fr; }
       .stats { grid-template-columns: 1fr 1fr; }
       .nav-links a:not(.nav-cta) { display: none; }
     }
@@ -439,6 +477,7 @@
   <a href="/" class="nav-logo"><div class="mark">KC</div> Keystroke Life</a>
   <div class="nav-links">
     <a href="#how">How it works</a>
+    <a href="#platforms">Mac + Windows</a>
     <a href="#features">Features</a>
     <a href="#bridge">The Bridge</a>
     <a href="#waitlist" class="nav-cta">Early access</a>
@@ -459,10 +498,10 @@
       <a href="#waitlist" class="btn btn-ghost">Get early access</a>
     </div>
     <div class="hero-pills">
+      <span class="pill"><strong>Mac</strong> + Windows</span>
       <span class="pill"><strong>6</strong> chat rooms</span>
       <span class="pill"><strong>YT + Rumble</strong></span>
       <span class="pill"><strong>AI-ranked</strong> comments</span>
-      <span class="pill">Patent <strong>pending</strong></span>
     </div>
   </div>
 
@@ -496,13 +535,45 @@
   <div class="container">
     <div class="tag">Under the hood</div>
     <h2>One press. Entire stack fires.</h2>
-    <p class="sub">KeyCast isn't a macro pack — it's a coordinated production system. Stream Deck triggers Keyboard Maestro, Python services, OBS WebSocket, and The Bridge in sequence.</p>
+    <p class="sub">KeyCast isn't a macro pack — it's a coordinated production system. Stream Deck triggers your macro layer — <strong style="color:var(--text)">Keyboard Maestro on Mac</strong> or <strong style="color:var(--text)">AutoHotkey on Windows</strong> — then Python, OBS, and The Bridge fire in sequence.</p>
     <div class="pipeline">
       <div class="pipe-node"><span class="ico">🎛️</span><h3>Stream Deck</h3><p>Physical trigger. Muscle memory under pressure.</p></div>
-      <div class="pipe-node"><span class="ico">⌨️</span><h3>Keyboard Maestro</h3><p>Orchestrates apps, windows, and scripts.</p></div>
+      <div class="pipe-node"><span class="ico">⌨️</span><h3>KM / AutoHotkey</h3><p>Mac: Keyboard Maestro. Windows: AutoHotkey v2.</p></div>
       <div class="pipe-node"><span class="ico">🐍</span><h3>Python stack</h3><p>Chat scrapers, rankers, scene control.</p></div>
       <div class="pipe-node"><span class="ico">📺</span><h3>OBS + SY</h3><p>Scenes, overlays, browser sources.</p></div>
       <div class="pipe-node"><span class="ico">🌉</span><h3>The Bridge</h3><p>Producer UI, topics, pinned chat.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="platforms" id="platforms">
+  <div class="container">
+    <div class="tag">Cross-platform</div>
+    <h2>Mac runs the show. Windows joins the stack.</h2>
+    <p class="sub">KeyCast isn't Mac-only. The same Stream Deck + Python + OBS architecture works on Windows — AutoHotkey v2 replaces Keyboard Maestro as the orchestration layer. Many productions split roles across both.</p>
+    <div class="plat-grid">
+      <div class="plat-card mac">
+        <div class="plat-os">macOS — show machine</div>
+        <h3>Keyboard Maestro</h3>
+        <p>Primary live control. Launches scrapers, scene scripts, closing credits, and StreamYard/OBS workflows from the deck.</p>
+        <ul class="plat-tools">
+          <li>Keyboard Maestro macro groups</li>
+          <li>Python 3 show stack (CF_MOD)</li>
+          <li>OBS + StreamYard control</li>
+          <li>The Bridge producer views</li>
+        </ul>
+      </div>
+      <div class="plat-card win">
+        <div class="plat-os">Windows — power in the stack</div>
+        <h3>AutoHotkey v2</h3>
+        <p>Same one-button philosophy on Windows. AHK scripts trigger Python, hotkeys, and app focus — plus room for GPU-heavy tasks on a dedicated PC.</p>
+        <ul class="plat-tools">
+          <li>AutoHotkey v2 (.ahk) macro layer</li>
+          <li>Ollama + local LLM ranking (e.g. RTX 5080)</li>
+          <li>LAN inference for the Mac show machine</li>
+          <li>OBS WebSocket on Windows builds</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -518,7 +589,7 @@
       <div class="feat"><span class="ico">📋</span><h3>Live topic pool</h3><p>Drag to reorder mid-show. Mark active or done. Restore if the conversation circles back. No rigid running order.</p></div>
       <div class="feat"><span class="ico">🖥️</span><h3>Media display engine</h3><p>OBS browser source auto-updates from your topic DB. Images, video, PDFs — no manual prep between segments.</p></div>
       <div class="feat"><span class="ico">🎬</span><h3>Closing credits crawl</h3><p>End-of-show credits built from live chat data. Hosts, donors, participants — animated roll triggered from the deck.</p></div>
-      <div class="feat"><span class="ico">🤖</span><h3>Local AI ranking</h3><p>High-volume comment ranking on your own hardware. No API credits burning mid-show. Grok + Ollama in the stack.</p></div>
+      <div class="feat"><span class="ico">🤖</span><h3>Local AI ranking</h3><p>Offload high-volume comment ranking to a Windows GPU box running Ollama — Mac show stack calls it over LAN. No API credits burning mid-show.</p></div>
     </div>
   </div>
 </section>
@@ -598,9 +669,9 @@
 
   const ACTIONS = [
     { t: 0,   cls: 'run',  text: '> SD: Start Show pressed' },
-    { t: 400, cls: 'run',  text: '  KM: launch show_start.py' },
+    { t: 400, cls: 'run',  text: '  KM / AHK: launch show_start.py' },
     { t: 900, cls: 'ok',   text: '  ✓ 6 chat scrapers online' },
-    { t: 1400,cls: 'ok',   text: '  ✓ chat_rank → local Qwen' },
+    { t: 1400,cls: 'ok',   text: '  ✓ chat_rank → Win PC / Ollama' },
     { t: 1900,cls: 'ok',   text: '  ✓ Bridge LiveView synced' },
     { t: 2400,cls: 'ok',   text: '  ✓ OBS scenes armed' },
     { t: 3200,cls: 'dim',  text: '  … standing by for show' },
