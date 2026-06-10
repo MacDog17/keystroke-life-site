@@ -183,6 +183,60 @@
       margin-bottom: 3.5rem;
     }
 
+    /* ── KeyCast spotlight ────────────────── */
+    .keycast-spot {
+      padding: 0 2rem 2rem;
+      max-width: 1100px;
+      margin: -2rem auto 0;
+      position: relative; z-index: 2;
+    }
+    .keycast-card {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 2rem;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(204,68,255,0.06));
+      border: 1px solid rgba(0,229,255,0.18);
+      border-radius: 18px;
+      padding: 2.5rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .keycast-card:hover {
+      border-color: rgba(0,229,255,0.35);
+      transform: translateY(-2px);
+    }
+    .kc-tag {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #00e5ff; margin-bottom: 0.6rem;
+    }
+    .kc-title {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 900; letter-spacing: -0.03em; margin-bottom: 0.5rem;
+    }
+    .kc-title .k { color: #00e5ff; }
+    .kc-title .c { color: #cc44ff; }
+    .kc-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.65; max-width: 480px; }
+    .kc-cta {
+      display: inline-flex; margin-top: 1.25rem;
+      font-size: 0.88rem; font-weight: 700; color: var(--bg);
+      background: linear-gradient(135deg, #00e5ff, #cc44ff);
+      padding: 0.7rem 1.25rem; border-radius: 8px;
+    }
+    .kc-visual {
+      background: rgba(0,0,0,0.35);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      font-family: ui-monospace, monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .kc-visual .hi { color: #00e5ff; }
+    .kc-visual .ok { color: var(--green); }
+
     /* ── How it works ─────────────────────── */
     .how { background: var(--bg2); }
     .steps {
@@ -393,6 +447,7 @@
       .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .hero-proof { gap: 2rem; }
       section { padding: 5rem 1.25rem; }
+      .keycast-card { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -448,6 +503,25 @@
     </div>
   </div>
 </section>
+
+<!-- ── KeyCast product ────────────────────── -->
+<div class="keycast-spot">
+  <a href="/keycast" class="keycast-card">
+    <div>
+      <div class="kc-tag">Flagship product</div>
+      <div class="kc-title"><span class="k">Key</span><span class="c">Cast</span></div>
+      <p class="kc-desc">Live broadcast production for serious creators. One Stream Deck press orchestrates OBS, multi-platform chat, AI-ranked comments, topic media, and closing credits — battle-tested on Join the Q.</p>
+      <span class="kc-cta">Explore KeyCast →</span>
+    </div>
+    <div class="kc-visual">
+      <span class="hi">&gt; Start Show</span> pressed<br>
+      <span class="ok">✓</span> 6 chat rooms live<br>
+      <span class="ok">✓</span> The Bridge synced<br>
+      <span class="ok">✓</span> OBS scenes armed<br>
+      <span style="opacity:0.5">… zero tab switching</span>
+    </div>
+  </a>
+</div>
 
 <!-- ── How it works ───────────────────────── -->
 <section class="how" id="how">
